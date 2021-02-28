@@ -11,7 +11,7 @@
 ############# Global Variables ################
 PROMPTS=("yes" "no" "y" "n" )
 JB5Install="/usr/local/jetapps/etc/jetbackup5/dr.flag"
-#source $(pwd)/source/BackupJobs/migrateBackupJobs.sh
+#source $(pwd)/source/BackupJobs/importBackupJobs.sh
 FILEPATH=$(pwd)/source/files
 Workspace=$(pwd)/source/tmp
 

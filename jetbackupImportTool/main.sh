@@ -10,14 +10,14 @@
 
 ################## Global Variables ###################
 
-DESTPATH=$(pwd)/source/Destinations/migrateJB4Destinations.sh
-BACKJOBPATH=$(pwd)/source/BackupJobs/migrateBackupJobs.sh
-HOOKSPATH=$(pwd)/source/Hooks/migrateHooks.sh
-genSetPATH=$(pwd)/source/Settings/migrateSettingsGeneral.sh
-perfSetPATH=$(pwd)/source/Settings/migrateSettingsPerformance.sh
-rcSetPath=$(pwd)/source/Settings/migrateSettingsRestoreConditions.sh
-bodSetPath=$(pwd)/source/Settings/migrateSettingsSnapshots.sh
-notifSetPath=$(pwd)/source/Settings/migrateSettingsNotification.sh
+DESTPATH=$(pwd)/source/Destinations/importJB4Destinations.sh
+BACKJOBPATH=$(pwd)/source/BackupJobs/importBackupJobs.sh
+HOOKSPATH=$(pwd)/source/Hooks/importHooks.sh
+genSetPATH=$(pwd)/source/Settings/importSettingsGeneral.sh
+perfSetPATH=$(pwd)/source/Settings/importSettingsPerformance.sh
+rcSetPath=$(pwd)/source/Settings/importSettingsRestoreConditions.sh
+bodSetPath=$(pwd)/source/Settings/importSettingsSnapshots.sh
+notifSetPath=$(pwd)/source/Settings/importSettingsNotification.sh
 tempWorkspace=$(pwd)/source/tmp/jb4tojb5.txt
 
 source $(pwd)/source/functions.sh
