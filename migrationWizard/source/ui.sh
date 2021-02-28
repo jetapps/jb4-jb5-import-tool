@@ -8,9 +8,13 @@
 #Email          : richard@jetapps.com
 ###################################################################
 
+RED='\033[0;31m'
+YELLOW='\033[1;33m'
+GREEN='\033[1;32m'
+NC='\033[0m'
 
 function printTitle () {
-	echo -e "\n"
+	echo -e "\n${GREEN}"
 	echo "   ###############################################"
 	echo "   #   _ ____ ___ ___  ____ ____ _  _ _  _ ___   #"
 	echo "   #   | |___  |  |__] |__| |    |_/  |  | |__]  #"
@@ -23,7 +27,7 @@ function printTitle () {
 	echo "   #               |  |__| |__| |___             #"
 	echo "   #                                             #"
 	echo "   ###############################################"
-	echo -e "\n"
+	echo -e "\n${NC}"
 }
 
 function printNote () {
@@ -39,58 +43,58 @@ function printNote () {
 }
 
 function printWarning () {
-	echo -e "\n"
-        echo "  #############################################"
-        echo "  # __      __                 _              #"
-        echo "  # \ \    / /__ _  _ _  _ _  (_) _ _   __ _  #"
-        echo "  #  \ \/\/ // _\` || '_|| ' \ | || ' \ / _\` | #"
-        echo "  #   \_/\_/ \__,_||_|  |_||_||_||_||_|\__, | #"
-        echo "  #                                    |___/  #"
-        echo "  #############################################"	
-	echo -e "\n"                                                              
+	echo -e "\n${YELLOW}"
+        echo "   #############################################"
+        echo "   # __      __                 _              #"
+        echo "   # \ \    / /__ _  _ _  _ _  (_) _ _   __ _  #"
+        echo "   #  \ \/\/ // _\` || '_|| ' \ | || ' \ / _\` | #"
+        echo "   #   \_/\_/ \__,_||_|  |_||_||_||_||_|\__, | #"
+        echo "   #                                    |___/  #"
+        echo "   #############################################"	
+	echo -e "\n${NC}"                                                              
 }
 
 function printDestinationSection () {
 	echo -e "\n"
-	echo " #######################################################"
-	echo " # ___  ____ ____ ___ _ _  _ ____ ___ _ ____ _  _ ____ #"
-	echo " # |  \ |___ [__   |  | |\ | |__|  |  | |  | |\ | [__  #"
-	echo " # |__/ |___ ___]  |  | | \| |  |  |  | |__| | \| ___] #"
-	echo " #                                                     #"
-	echo " #######################################################"
+	echo "   #######################################################"
+	echo "   # ___  ____ ____ ___ _ _  _ ____ ___ _ ____ _  _ ____ #"
+	echo "   # |  \ |___ [__   |  | |\ | |__|  |  | |  | |\ | [__  #"
+	echo "   # |__/ |___ ___]  |  | | \| |  |  |  | |__| | \| ___] #"
+	echo "   #                                                     #"
+	echo "   #######################################################"
 	echo -e "\n"
 }
 
 function printBackupJobSection () {
 	echo -e "\n"
-	echo " #####################################################"
-	echo " # ___  ____ ____ _  _ _  _ ___     _ ____ ___  ____ #"
-	echo " # |__] |__| |    |_/  |  | |__]    | |  | |__] [__  #"
-	echo " # |__] |  | |___ | \_ |__| |      _| |__| |__] ___] #"
-	echo " #                                                   #"
-	echo " #####################################################"
+	echo "   #####################################################"
+	echo "   # ___  ____ ____ _  _ _  _ ___     _ ____ ___  ____ #"
+	echo "   # |__] |__| |    |_/  |  | |__]    | |  | |__] [__  #"
+	echo "   # |__] |  | |___ | \_ |__| |      _| |__| |__] ___] #"
+	echo "   #                                                   #"
+	echo "   #####################################################"
 	echo -e "\n"
 }
 
 function printHooksSection () {
 	echo -e "\n"
-	echo " ############################"
-	echo " # _  _ ____ ____ _  _ ____ #"
-	echo " # |__| |  | |  | |_/  [__  #"
-	echo " # |  | |__| |__| | \_ ___] #"
-	echo " #                          #"
-	echo " ############################"
+	echo "   ############################"
+	echo "   # _  _ ____ ____ _  _ ____ #"
+	echo "   # |__| |  | |  | |_/  [__  #"
+	echo "   # |  | |__| |__| | \_ ___] #"
+	echo "   #                          #"
+	echo "   ############################"
 	echo -e "\n"
 }
 
 function printSettingsSection () {
 	echo -e "\n"
-	echo " ######################################"
-	echo " # ____ ____ ___ ___ _ _  _ ____ ____ #"
-	echo " # [__  |___  |   |  | |\ | | __ [__  #"
-	echo " # ___] |___  |   |  | | \| |__] ___] #"
-	echo " #                                    #"
-	echo " ######################################"
+	echo "   ######################################"
+	echo "   # ____ ____ ___ ___ _ _  _ ____ ____ #"
+	echo "   # [__  |___  |   |  | |\ | | __ [__  #"
+	echo "   # ___] |___  |   |  | | \| |__] ___] #"
+	echo "   #                                    #"
+	echo "   ######################################"
 	echo -e "\n"
 }
 
@@ -107,7 +111,7 @@ function printUnSupportedJB4Destinations () {
 	if [[ "$countNonMigrated" -gt 0 ]]; then
   		printWarning
   		echo
-  		echo "Here are the destinations unable to be imported to JetBackup 5"
+  		echo -e "Here are the destinations that ${YELLOW}CANNOT${NC} be imported to JetBackup 5"
   		echo
 		jetapi backup -F listDestinations | grep -C1 "type: GoogleDrive\|type: SFTP\|type: FTP\|type: Dropbox\|AmazonS3\|Backblaze"
 		echo
@@ -137,14 +141,14 @@ function printUnSupportedJB4BackupJobs () {
 
 function printDefaultDisabledDestination () {
 	echo
-	echo "Please note that Destinations will be disabled by default."
+	echo -e "Please note that Destinations will be ${YELLOW}DISABLED${NC} by default."
 	echo "You may navigate to Destination Settings to enable your destination after reviewing its configuration within the JetBackup Interface"
 	echo
 }
 
 function printDefaultDisabledBackupJob () {
 	echo
-	echo "Please note that Backup Jobs will be disabled by default."
+	echo -e "Please note that Backup Jobs will be ${YELLOW}DISABLED${NC} by default."
 	echo "You may navigate to Backup Jobs Settings to enable your Backup Job after reviewing its configuration within the JetBackup Interface"
 	echo
 }
