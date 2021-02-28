@@ -33,7 +33,7 @@ if [ "${#JB4HookLists[@]}" -ne 0 ]; then
 		echo "  Hook [$i]: ${JB4HookLists[$i]}"
 		echo
 		ARGS[position]=$(jetapi backup -F getHook -D "_id=${JB4HookLists[$i]}" | grep -w "position" | sed "s/.*position: //")
-		if [[ " ${supportedTypes} " =~ " ${ARGS[position]} " ]]
+		if [[ " ${supportedTypes[@]} " =~ " ${ARGS[position]} " ]]
 		then
 			#create tmp file
 			tmpSpace="$Workspace/Hook_${JB4HookLists[$i]}"

@@ -53,11 +53,9 @@ function checkInput () {
 
 	case $input in
 		"yes" | "y" )
-			#echo "hello"
 			return 0
 			;;
 		"no" | "n" )
-			#echo "goodbye"
 			return 1
 			;;
 	esac
@@ -629,7 +627,7 @@ function reviewHooks () {
 
 	for hookIdIndex in "${!JB4HookLists[@]}"
 	do
-		hookReviewFile=$Workspace/Hook_"$hookIdIndex"
+		hookReviewFile=$Workspace/Hook_"${JB4HookLists[$hookIdIndex]}"
 		if [ -f "$hookReviewFile" ]; then
 			echo
 			echo "Hook [$hookIdIndex]: "
