@@ -32,8 +32,9 @@ do
   #echo "Retrieving Destination Configuration of Destination: $id"
   jetapi backup -F getDestination -D "_id=${id}" > ${FILEPATH}/destinationData
   NAME=$(grep -w "name:" ${FILEPATH}/destinationData | sed 's/  name: //')
+  JB5Exists=$(jetbackup5api -F listDestinations -D "filter=$NAME" | grep -A15 options | grep total | awk '{print $2}')
 
-  if [[ "$NAME" != "0" ]]; then
+  if [[ "${JB5Exists}" = "1" ]]; then
     echo "Destination \"${NAME}\" already exists on JetBackup 5, moving to next destination"
     continue
   fi
