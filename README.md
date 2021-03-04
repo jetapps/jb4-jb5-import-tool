@@ -1,4 +1,4 @@
-# Migrating Configurations from JetBackup 4 to JetBackup 5
+# Importing Configurations from JetBackup 4 to JetBackup 5
 
 This script will allow you to transfer over any supported configurations on JetBackup 4 over to your new installation of JetBackup 5.  For more information, please visit our official documentation for the JetBackup Import Tool at https://docs.jetbackup.com/v5.1/adminpanel/Resources/migrationguide.html.
 
