@@ -19,6 +19,7 @@ rcSetPath=$(pwd)/source/Settings/importSettingsRestoreConditions.sh
 bodSetPath=$(pwd)/source/Settings/importSettingsSnapshots.sh
 notifSetPath=$(pwd)/source/Settings/importSettingsNotification.sh
 tempWorkspace=$(pwd)/source/tmp/jb4tojb5.txt
+tempFiles=$(pwd)/source/files/File.txt
 
 source $(pwd)/source/functions.sh
 source $(pwd)/source/ui.sh
@@ -48,6 +49,15 @@ then
 	fi
 
 	touch $tempWorkspace
+fi
+
+if [[ ! -f $tempFiles ]]
+then
+	if [[ ! -d $(pwd)/source/files ]]
+	then
+		mkdir $(pwd)/source/files
+	fi
+	touch $tempFiles
 fi
 
 printf "DONE\n\n";
