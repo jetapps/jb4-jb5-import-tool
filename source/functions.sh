@@ -76,7 +76,7 @@ function checkJB5Install () {
 
 function checkCurrentSupportedJB4Dest () {
 
-	DESTINATIONS=(`jetapi backup -F listDestinations -D 'sort[type]=1' | grep -B 3 "engine_name: JetBackup" | grep -B 1 "type: Local\|type: SSH\|type: Rsync" | grep _id | awk '{print $2}'`)
+	DESTINATIONS=(`jetapi backup -F listDestinations -D 'sort[type]=1' | grep -B 3 "engine_name: JetBackup" | grep -B 1 "type: Local\|type: SSH\|type: FTP\|type: Rsync" | grep _id | awk '{print $2}'`)
 
 	if [[ "${#DESTINATIONS[@]}" = "0" ]]
 	then
@@ -122,6 +122,44 @@ function installSSHPlugin () {
 	else
     	echo "Plugin is enabled: Continue"
 	fi
+}
+
+function installFTPPlugin () {
+        echo "Checking if FTP Plugin is Installed, installing otherwise"
+
+        echo "$(jetbackup5api -F listPackages -D 'filter=FTP' | grep -w "_id\|installed" | awk '{print $2}')" > ${FILEPATH}/checkPlugin
+
+
+        space=$(wc -l ${FILEPATH}/checkPlugin | awk '{print $1}')
+        id=$(head -n 1 ${FILEPATH}/checkPlugin)
+
+        if [ "$space" == 0 ]
+        then
+        echo "FTP Package not available, make sure you have correct repo"
+        exit 1
+        elif [ "$space" == 1 ]
+        then
+        echo "Package not Installed: Installing..."
+        jetbackup5api -F installPlugin -D "package_id=${id}" | grep -B1 "message"
+        echo
+        else
+        echo "Package already Installed: Continue"
+        fi
+
+        echo "Checking if plugin is enabled"
+
+        disabled=$(jetbackup5api -F listPlugins -D 'find[name]=FTP' | grep -w "disabled:" | awk '{print $2}')
+        IDPLUGIN=$(jetbackup5api -F listPlugins -D 'find[name]=FTP' | grep -w "_id:" | awk '{print $2}')
+
+        if [ "$disabled" ]
+        then
+        echo "Plugin is disabled: Enabling..."
+        jetbackup5api -F managePlugin -D '_id='"$IDPLUGIN"'&disabled=0' | grep -B1 "message"
+        service jetbackup5d restart > /dev/null 2>&1
+        echo
+        else
+        echo "Plugin is enabled: Continue"
+        fi
 }
 
 function checkNumDestinations () {
@@ -230,8 +268,8 @@ function backupJobDestination () {
 			continue
 		fi
 	else
-		#echo "Assigining Destination - ${backupJobDest} to Backup Job - ${BackupJobName}"
-		destID=$(jetbackup5api -F listDestinations -D "filter=${backupJobDest}" | grep _id | awk '{print $2}')
+		echo "Assigining Destination - ${backupJobDest} to Backup Job - ${BackupJobName}"
+		destID=$(jetbackup5api -F listDestinations -D "filter=${BackupJobDest}"| grep _id | awk 'NR==1{print $2}')
 		newDest="&destination[0]=${destID}"
 	fi
 }
@@ -241,6 +279,11 @@ function createAccountFilters () {
 	NAME=$(jetapi backup -F getAccountFilter -D "_id=${id}" | grep "name" | sed 's/.*name: //')
 	TYPE=$(jetapi backup -F getAccountFilter -D "_id=${id}" | sed -n '/data:/,$p' | grep type | sed 's/  type: //')
 	CONDITION=$(jetapi backup -F getAccountFilter -D "_id=${id}" | grep "condition" | sed 's/  condition: //')
+
+	#NAME=$(jetapi backup -F listAccountFilters | grep "_id:" -A 8 | grep "name" | sed 's/  name: //')
+        #TYPE=$(jetapi backup -F listAccountFilters | grep "_id:" -A 8 | grep "type" | sed 's/  type: //')
+        #CONDITION=$(jetapi backup -F listAccountFilters | grep "_id:" -A 8 | grep "condition" | sed 's/  condition: //')
+
 
 	CMD="jetbackup5api -F manageAccountFilter -D 'action=create&type=${TYPE}&name=${NAME}&condition=${CONDITION}"
 
@@ -547,7 +590,7 @@ function assignBOD () {
 ########## Final Review Functions #############
 
 function reviewDestinations () {
-	DESTINATIONS=(`jetapi backup -F listDestinations -D 'sort[type]=1' | grep -B 3 "engine_name: JetBackup" | grep -B 1 "type: Local\|type: SSH\|type: Rsync" | grep _id | awk '{print $2}'`)
+	DESTINATIONS=(`jetapi backup -F listDestinations -D 'sort[type]=1' | grep -B 3 "engine_name: JetBackup" | grep -B 1 "type: Local\|type: SSH\|type: FTP\|type: Rsync" | grep _id | awk '{print $2}'`)
 	local cmd
 	printNote
 	echo "Reviewing Destinations"
@@ -614,6 +657,7 @@ function importBackupJobs () {
 			getSchedule "${BackupJobIDS[$idIndex]}"
 			CMD=$(cat $backupJobReviewFile | grep "jetbackup5api")
 			CMD+="$newDest$Filters$Schedules'"
+			echo "RUNNING COMMAND: " . "$CMD"
 			eval "$CMD"
 		fi
 	done

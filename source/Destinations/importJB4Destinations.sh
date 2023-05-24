@@ -12,6 +12,7 @@
 FILEPATH=$(pwd)/source/files
 BOOLEAN=("Yes" "No")
 LOCALCREATE=$(pwd)/source/Destinations/createLocalDest.sh
+FTPCREATE=$(pwd)/source/Destinations/createFTPDest.sh
 SSHCREATE=$(pwd)/source/Destinations/createSSHDest.sh
 
 
@@ -19,11 +20,12 @@ source $(pwd)/source/functions.sh
 source $(pwd)/source/ui.sh
 
 source $(pwd)/source/Destinations/createLocalDest.sh
+source $(pwd)/source/Destinations/createFTPDest.sh
 source $(pwd)/source/Destinations/createSSHDest.sh
 ##################################################
 
 #echo "Storing the supported destinations IDs"
-DESTINATIONS=(`jetapi backup -F listDestinations -D 'sort[type]=1' | grep -B 3 "engine_name: JetBackup" | grep -B 1 "type: Local\|type: SSH\|type: Rsync" | grep _id | awk '{print $2}'`)
+DESTINATIONS=(`jetapi backup -F listDestinations -D 'sort[type]=1' | grep -B 3 "engine_name: JetBackup" | grep -B 1 "type: Local\|type: FTP\|type: SSH\|type: Rsync" | grep _id | awk '{print $2}'`)
 
 ############### Iterate through all supported destinations and ask if they should be ported ###############
 for id in ${DESTINATIONS[@]}
@@ -66,7 +68,12 @@ do
     #else
       #echo "Skipping to next Destination"
     #fi
+  elif grep -wq "type: FTP" ${FILEPATH}/destinationData
+  then
+    echo "Storing configuration of FTP Destination: ${NAME} - ${id}"
+    echo ${FILEPATH} . "\n";
 
+    createFTPDestination "${destinationSpace}"
   else # Creating an SSH Destination
     echo "Storing configuration of SSH/Rsync Destination: ${NAME} - ${id}"
     #read -p "Would you like to create this SSH/Rsync Destination on JB5 using the same credentials? (Yes/No): " INPUT

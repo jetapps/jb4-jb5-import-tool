@@ -100,25 +100,25 @@ function printSettingsSection () {
 
 function printSupportedJB4Destinations () {
 	echo
-	jetapi backup -F listDestinations -D 'sort[type]=1' | grep -B 3 "engine_name: JetBackup" | grep -C 1 "type: Local\|type: SSH\|type: Rsync}"
+	jetapi backup -F listDestinations -D 'sort[type]=1' | grep -B 3 "engine_name: JetBackup" | grep -C 1 "type: Local\|type: SSH\|type: FTP\|type: Rsync}"
 	echo
 }
 
 function printUnSupportedJB4Destinations () {
-	countNonMigrated=$(jetapi backup -F listDestinations | grep -c "type: GoogleDrive\|type: SFTP\|type: FTP\|type: Dropbox\|type: AmazonS3\|type: Backblaze")
-	countHope=$(jetapi backup -F listDestinations | grep -c "type: SFTP\|type: FTP")
+	countNonMigrated=$(jetapi backup -F listDestinations | grep -c "type: GoogleDrive\|type: SFTP\|type: Dropbox\|type: AmazonS3\|type: Backblaze")
+	countHope=$(jetapi backup -F listDestinations | grep -c "type: SFTP")
 
 	if [[ "$countNonMigrated" -gt 0 ]]; then
   		printWarning
   		echo
   		echo -e "Here are the destinations that ${YELLOW}CANNOT${NC} be imported to JetBackup 5"
   		echo
-		jetapi backup -F listDestinations | grep -C1 "type: GoogleDrive\|type: SFTP\|type: FTP\|type: Dropbox\|AmazonS3\|Backblaze"
+		jetapi backup -F listDestinations | grep -C1 "type: GoogleDrive\|type: SFTP\|type: Dropbox\|AmazonS3\|Backblaze"
 		echo
   		echo "For more information about JetBackup 5 Supported Destination Types please visit our Destination Overview: https://docs.jetbackup.com/v5.1/adminpanel/Destinations/destination.html"
 
   		if [[ "$countHope" -gt 0 ]]; then
-    		echo "JetBackup 5 does not support FTP/SFTP protocols. Please review your destination as it may support the SSH protocol and be configured as an SSH destination in JetBackup 5"
+    		echo "JetBackup v5.2 does not support the SFTP protocol. Please review your destination as it may support the SSH protocol and be configured as an SSH destination in JetBackup 5"
   		fi
 	fi
 }

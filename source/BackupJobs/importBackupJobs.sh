@@ -101,7 +101,7 @@ do
 		continue
 	fi
 
-	tmpSpace="$(pwd)/source/tmp/BackupJob_${BackupJobIDS[$i]]}"
+	tmpSpace="$(pwd)/source/tmp/BackupJob_${BackupJobIDS[$i]}"
 	touch $tmpSpace
 
 	echo "Name: ${BackupJobName}" >> $tmpSpace
@@ -131,7 +131,9 @@ do
 	echo "Storing Backup Job Destination"
 	backupJobDest=$(jetapi backup -F getBackupJob -D "_id=${BackupJobIDS[$i]}" | grep "destination_name" | sed 's/  destination_name: //')
 	echo "Destintation: ${backupJobDest}" >> $tmpSpace
-
+        
+        echo "This is the destination " . ${backupJobDest}
+        
 	#if [[ ! " ${currentJB5Dest[@]} " =~ " ${backupJobDest} " ]]; then
 	#	echo
 	#	echo "The destination you have configured for Backup Job ${BackupJobName} - ${BackupJobIDS[$i]} is not configured on JetBackup 5."
@@ -219,3 +221,4 @@ do
 
 	#fi
 done
+
