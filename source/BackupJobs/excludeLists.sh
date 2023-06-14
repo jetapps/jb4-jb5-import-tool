@@ -17,12 +17,13 @@ function createExcludeList () {
 
 	#echo $backupjobid
 	#echo $workspace
+set -f
 
 	excludeItems=( $(jetapi backup -F getBackupJob -D "_id=${backupjobid}" | sed -n '/excludelist:/,$p' | sed '/time_estimation:/Q' | awk '{print $2}') )
 	echo "Exclude List: " >> $workspace
 
 	#echo "${excludeItems[@]}"
-
+set +f
 	for i in "${!excludeItems[@]}"
 	do
 		echo "  Item [$i]: ${excludeItems[$i]}" >> $workspace
