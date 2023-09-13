@@ -269,7 +269,7 @@ function backupJobDestination () {
 		fi
 	else
 		echo "Assigining Destination - ${backupJobDest} to Backup Job - ${BackupJobName}"
-		destID=$(jetbackup5api -F listDestinations -D "filter=${BackupJobDest}"| grep _id | awk 'NR==1{print $2}')
+		destID=$(jetbackup5api -F listDestinations -D "filter=${backupJobDest}"| grep _id | awk 'NR==1{print $2}')
 		newDest="&destination[0]=${destID}"
 	fi
 }
