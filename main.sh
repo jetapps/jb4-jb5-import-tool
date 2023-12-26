@@ -32,7 +32,9 @@ if checkJB4Install
 then
 	echo ""
 else
-	echo "JetBackup 4 is not installed. Please install JetBackup 4 and re run the script"
+	echo "JetBackup 4 is not installed. Please install JetBackup 4 by using the following commands, complete the initial setup,and then re run the script"
+	echo "bash <(curl -LSs https://repo.jetlicense.com/static/install)"
+	echo "jetapps --install jetbackup stable"
 	exit 123
 fi
 
@@ -42,7 +44,9 @@ then
 	echo "Thank you for installing JetBackup 5, allow us to begin importing your supported JetBackup 4 configurations"
 	pressAnyKey
 else
-	echo "You have not installed JetBackup 5, please finish installing JetBackup 5 and re run the script."
+	echo "JetBackup 5 v5.2.11 is not installed. Please install JetBackup 5 v5.2.11 by using the following commands, complete the initial setup, and then re run the script."
+	echo "bash <(curl -LSs https://repo.jetlicense.com/static/install)"
+	echo "yum install jetbackup5-cpanel-5.2.11 --disablerepo=* --enablerepo=jetapps,jetapps-stable" 
 	exit 1
 fi
 
