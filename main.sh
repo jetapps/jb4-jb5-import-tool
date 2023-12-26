@@ -27,6 +27,15 @@ source $(pwd)/source/ui.sh
 
 printTitle
 trap safeExit SIGINT
+#Check JB4 Installation
+if checkJB4Install
+then
+	echo ""
+else
+	echo "JetBackup 4 is not installed. Please install JetBackup 4 and re run the script"
+	exit 123
+fi
+
 #Check JB5 Installation
 if checkJB5Install
 then
