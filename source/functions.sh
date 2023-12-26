@@ -10,6 +10,7 @@
 
 ############# Global Variables ################
 PROMPTS=("yes" "no" "y" "n" )
+JB4Install="/usr/local/jetapps/etc/jetbackup/dr.flag"
 JB5Install="/usr/local/jetapps/etc/jetbackup5/dr.flag"
 #source $(pwd)/source/BackupJobs/importBackupJobs.sh
 FILEPATH=$(pwd)/source/files
@@ -61,6 +62,16 @@ function checkInput () {
 	esac
 
 	#echo $input
+
+}
+
+function checkJB4Install () {
+
+	if [ -f "${JB4Install}" ]; then
+		return 0
+	else
+		return 1
+	fi
 
 }
 
