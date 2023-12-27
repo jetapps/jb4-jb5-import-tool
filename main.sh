@@ -32,10 +32,7 @@ if checkJB4Install
 then
 	echo ""
 else
-	echo "JetBackup 4 is not installed. Please install JetBackup 4 by using the following commands, complete the initial setup,and then re run the script."
-	echo ""
-	echo "bash <(curl -LSs https://repo.jetlicense.com/static/install)"
-	echo "jetapps --install jetbackup stable"
+	echo "JetBackup 4 is not installed"
 	exit 123
 fi
 
