@@ -172,3 +172,13 @@ fi
 finalReview
 
 echo "You have completed the upgrade, please review all configurations that were transferred and use the Upgrade Guide to review configurations that were not imported."
+
+echo""
+echo "To upgrade to v5.3, you will need to first uninstall JetBackup 4 since it is not compatible with v5.3+, and you can do so by using the following commands."
+echo""
+echo "# Uninstall JetBackup 4"
+echo "yum remove jetbackup-core" 
+echo""
+echo "# Update to v5.3"
+echo "jetapps -a"
+
